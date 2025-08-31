@@ -41,7 +41,7 @@ typedef struct s_mlx
     void *win;
     void *img;
     void *addr;
-    int bits_per_pixel; 
+    int bits_per_pixel;
     int line_length;
     int endian;
 }               t_mlx;
@@ -92,4 +92,5 @@ void get_player_loc(t_cub *cub);
 void draw_frame(t_cub *cub);
 void put_pixel(t_cub *cub, int y, int x, int color);
 void draw_tile(t_cub *cub, int x, int y, int color);
-#endif 
+t_cub* raycating_new_image(t_cub *cub);
+#endif

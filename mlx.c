@@ -30,29 +30,6 @@ void draw_tile(t_cub *cub, int x, int y, int color)
     }
 }
 
-void draw_frame(t_cub *cub)
-{
-    int y;
-    int x;
-
-    y = 0;
-    while (cub->map[y])
-    {
-        x = 0;
-        while (cub->map[y][x])
-        {
-            if (cub->map[y][x] == '1')
-                draw_tile(cub, x, y, 0x8B4513);
-            else if (cub->map[y][x] == '0')
-                draw_tile(cub, x, y, 0xD3D3D3); 
-            else if (cub->map[y][x] == 'N' || cub->map[y][x] == 'S'
-                  || cub->map[y][x] == 'E' || cub->map[y][x] == 'W')
-                draw_tile(cub, x, y, 0xFFFFFF); 
-            x++;
-        }
-        y++;
-    }
-}
 
 void put_pixel(t_cub *cub, int x, int y, int color)
 {

@@ -15,7 +15,7 @@
 void init_struct(t_cub *cub)
 {
     int i = 0;
-    
+
     while(i < 3)
     {
         cub->ceiling_colors[i] = -1;
@@ -39,6 +39,11 @@ void init_struct(t_cub *cub)
 void    init_mlx(t_cub *cub)
 {
 
+    // (void)cub;
+    // void *mlx = mlx_init();
+    // mlx_new_window(mlx, 800, 600, "test");
+    // mlx_loop(mlx);
+
     cub->mlx.mlx = mlx_init();
     if(!cub->mlx.mlx)
         ft_error("mlx init failed", cub);
@@ -52,10 +57,16 @@ void    init_mlx(t_cub *cub)
                      &cub->mlx.bits_per_pixel,
                      &cub->mlx.line_length,
                      &cub->mlx.endian);
+    // a modifier
     draw_frame(cub);
     mlx_put_image_to_window(cub->mlx.mlx, cub->mlx.win, cub->mlx.img, 0,0);
+    //
     mlx_loop(cub->mlx.mlx);
+
+
 }
+
+
 
 int ft_error(char *str, t_cub *cub)
 {
@@ -96,7 +107,7 @@ int main(int c, char **v)
     if(c != 2)
         printf("this program only works with one argument that is a .cub file");
 
-    else 
+    else
     {
         init_struct(&cub);
         parser(&cub, v[1]);
@@ -112,4 +123,3 @@ int main(int c, char **v)
     }
     return(0);
 }
-

@@ -14,9 +14,9 @@
 
 int	ft_print_s(const char *str)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if (!str)
 		return (write(1, "(null)", 6));
 	return (write(1, str, ft_strlen(str)));
