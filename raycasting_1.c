@@ -97,42 +97,7 @@ void draw_walls(t_cub *cub)
         draw_e = line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
         int wall_color;
-
-
-        // position du joueur
-        double posX = cub->player->player_x;
-        double posY = cub->player->player_y;
-
-        // direction de la caméra (où regarde le joueur)
-        double dirX = cub->player->direction;
-        double dirY = cub->player.dir_y;
-
-        // plan caméra (perpendiculaire à dir, pour donner l’angle de vue)
-        double planeX = cub->player.plane_x;
-        double planeY = cub->player.plane_y;
-
-        double camX = 2 * x / (double)cub->screen_w - 1; // [-1, +1]
-
-        // direction du rayon
-        double ray_dir_x = cos(cub->player->player_direction) + cub->planeX * camX;
-        double ray_dir_y = -sin(cub->player->player_direction) + cub->planeY * camX;
-
-        if (side == 0) // mur vertical
-        {
-            if (raydir_x > 0)
-                wall_color = 0xFF0000; // Est (rouge)
-            else
-                wall_color = 0x00FF00; // Ouest (vert)
-        }
-        else // mur horizontal
-        {
-            if (raydir_y > 0)
-                wall_color = 0x0000FF; // Sud (bleu)
-            else
-                wall_color = 0xFFFF00; // Nord (jaune)
-        }
-
-        // léger shading couleur des mures, a changer
+        wall_color = (side == 0) ? 0xBBBBBB : 0x999999; // léger shading
         draw_vertical_line(cub, x, draw_s, draw_e, wall_color);
         x++;
     }
