@@ -14,6 +14,7 @@
 
 void check_map(t_cub *cub)
 {
+//    (void)cub;
     player_count(cub);
     is_map_closed(cub);
     still_checking_if_closed(cub);
@@ -26,7 +27,7 @@ void is_map_closed(t_cub *cub)
 {
     int i;
     int x;
-    
+
     i = -1;
     while(cub->map[++i])
     {
@@ -46,13 +47,16 @@ void is_map_closed(t_cub *cub)
         if(cub->map[i][x] != '1' && cub->map[i][x - 1] != '1')
             ft_error("map is not surrounded by walls", cub);
     }
+    // cub->screen_w = cub->width * TILE_SIZE;
+    // cub->screen_h = cub->height * TILE_SIZE;
+
 }
 
 void still_checking_if_closed(t_cub *cub)
 {
     int x;
     int i;
-    
+
     i = 0;
     x = -1;
     while(cub->map[i][++x])
@@ -79,7 +83,7 @@ void player_count(t_cub *cub)
 
     count = 0;
     i = -1;
-    
+
     while(cub->map[++i])
     {
         x = 0;
@@ -111,13 +115,13 @@ void get_player_loc(t_cub *cub)
                 cub->player->player_y = (double)i + 0.5;
                 cub->player->player_x = (double)x + 0.5;;
                 if (cub->map[i][x] == 'N')
-                    cub->player->player_direction = M_PI_2;       
+                    cub->player->player_direction = M_PI_2;
                 else if (cub->map[i][x] == 'S')
-                    cub->player->player_direction = 3 * M_PI_2;    
+                    cub->player->player_direction = 3 * M_PI_2;
                 else if (cub->map[i][x] == 'E')
-                    cub->player->player_direction = 0;             
+                    cub->player->player_direction = 0;
                 else if (cub->map[i][x] == 'W')
-                    cub->player->player_direction = M_PI;     
+                    cub->player->player_direction = M_PI;
                 return;
             }
             x++;

@@ -57,13 +57,10 @@ void    init_mlx(t_cub *cub)
                      &cub->mlx.bits_per_pixel,
                      &cub->mlx.line_length,
                      &cub->mlx.endian);
-    // a modifier
     draw_frame(cub);
     mlx_put_image_to_window(cub->mlx.mlx, cub->mlx.win, cub->mlx.img, 0,0);
-    //
+    mlx_hook(cub->mlx.win, 2, 1L<<0, handle_key, cub);
     mlx_loop(cub->mlx.mlx);
-
-
 }
 
 

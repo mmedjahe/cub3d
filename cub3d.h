@@ -26,6 +26,13 @@
 # define M_PI_2 (M_PI / 2)
 #endif
 
+#ifndef FOV_DEG
+# define FOV_DEG 60.0
+#endif
+
+#ifndef FOV_RAD
+# define FOV_RAD (FOV_DEG * M_PI / 180.0)
+#endif
 #define TILE_SIZE 32
 
 typedef struct s_player
@@ -57,6 +64,8 @@ typedef struct s_cub
     char **map;
     int height;
     int width;
+    // int screen_w;
+    // int screen_h;
     t_mlx mlx;
     t_player *player;
 }              t_cub;
@@ -92,5 +101,6 @@ void get_player_loc(t_cub *cub);
 void draw_frame(t_cub *cub);
 void put_pixel(t_cub *cub, int y, int x, int color);
 void draw_tile(t_cub *cub, int x, int y, int color);
-t_cub* raycating_new_image(t_cub *cub);
+int handle_key(int keycode, t_cub *cub);
+
 #endif
