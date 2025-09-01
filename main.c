@@ -103,19 +103,12 @@ int main(int c, char **v)
     t_cub cub;
     if(c != 2)
         printf("this program only works with one argument that is a .cub file");
-
     else
     {
         init_struct(&cub);
         parser(&cub, v[1]);
         check_map(&cub);
         init_mlx(&cub);
-/*         for(int i = 0; cub.map[i]; i++)
-            printf("%s\n", cub.map[i]);
-        printf("%c\n", cub.player_direction);
-        for(int x = 0; x < 3; x++)
-            printf("%d, %d \n", cub.ceiling_colors[x], cub.ground_colors[x]);
-        printf("%d, %d", cub.player_y, cub.player_x); */
         ft_error("everything ok", &cub);
     }
     return(0);

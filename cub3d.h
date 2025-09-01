@@ -64,8 +64,6 @@ typedef struct s_cub
     char **map;
     int height;
     int width;
-    // int screen_w;
-    // int screen_h;
     t_mlx mlx;
     t_player *player;
 }              t_cub;
@@ -102,5 +100,9 @@ void draw_frame(t_cub *cub);
 void put_pixel(t_cub *cub, int y, int x, int color);
 void draw_tile(t_cub *cub, int x, int y, int color);
 int handle_key(int keycode, t_cub *cub);
+int get_color(int *value_color);
+int is_wall_or_void(t_cub *cub, int mx, int my);
+void draw_vertical_line(t_cub *cub, int x, int start, int end, int color);
+
 
 #endif

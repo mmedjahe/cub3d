@@ -13,30 +13,6 @@
 #include "cub3d.h"
 
 
-static int get_color(int *value_color)
-{
-    return (value_color[0] * 65536 + value_color[1] * 256 + value_color[2]);
-}
-
-static int is_wall_or_void(t_cub *cub, int mx, int my)
-{
-    if (my < 0 || my >= cub->height || mx < 0)
-        return (1);
-    int rowlen = (int)ft_strlen(cub->map[my]);
-    if (mx >= rowlen)
-        return (1);
-    char c = cub->map[my][mx];
-    return (c == '1' || c == ' ' || c == '\t');
-}
-
-static void draw_vertical_line(t_cub *cub, int x, int start, int end, int color)
-{
-    int screen_h = cub->height * TILE_SIZE;
-    if (start < 0) start = 0;
-    if (end >= screen_h) end = screen_h - 1;
-    for (int y = start; y <= end; ++y)
-        put_pixel(cub, x, y, color);
-}
 
 static double cast_ray(t_cub *cub, double ray_angle, int *out_side)
 {
@@ -46,8 +22,10 @@ static double cast_ray(t_cub *cub, double ray_angle, int *out_side)
     double rayDirX = cos(ray_angle);
     double rayDirY = sin(ray_angle);
 
-    int mapX = (int)posX;
-    int mapY = (int)posY;
+    int mapX;
+    mapX = (int)posX;
+    int mapY;
+    mapY = (int)posY;
 
     double deltaDistX = (rayDirX == 0.0) ? 1e30 : fabs(1.0 / rayDirX);
     double deltaDistY = (rayDirY == 0.0) ? 1e30 : fabs(1.0 / rayDirY);
@@ -60,8 +38,12 @@ static double cast_ray(t_cub *cub, double ray_angle, int *out_side)
     if (rayDirY < 0) { stepY = -1; sideDistY = (posY - mapY) * deltaDistY; }
     else             { stepY =  1; sideDistY = (mapY + 1.0 - posY) * deltaDistY; }
 
-    int hit = 0, side = 0;
-    int safety = cub->width * cub->height * 4;
+    int hit;
+    int side;
+    hit = 0;
+    side = 0;
+    int safety;
+    safety = cub->width * cub->height * 4;
     while (!hit && safety-- > 0)
     {
         if (sideDistX < sideDistY)
@@ -93,49 +75,69 @@ static double cast_ray(t_cub *cub, double ray_angle, int *out_side)
 
 void draw_walls(t_cub *cub)
 {
-    int screen_w = cub->width * TILE_SIZE;
+    int screen_w;
+    int x;
 
-    for (int x = 0; x < screen_w; ++x)
+    x = 0;
+    screen_w= cub->width * TILE_SIZE;
+    while (x < screen_w)
     {
-        // angle du rayon pour la colonne x
-        double cam = ((double)x / (double)screen_w) - 0.5; // [-0.5, +0.5]
+        double cam = ((double)x / (double)screen_w) - 0.5;
         double ray_angle = cub->player->player_direction + cam * FOV_RAD;
 
-        int side = 0;
+        int side;
+        side = 0;
         double dist = cast_ray(cub, ray_angle, &side);
 
-        int line_h   = (int)((cub->height * TILE_SIZE) / dist);
-        int draw_s   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
-        int draw_e   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
+        int line_h;
+        line_h = (int)((cub->height * TILE_SIZE) / dist);
+        int draw_s;
+        draw_s = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
+        int draw_e;
+        draw_e = line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
-        int wall_color = (side == 0) ? 0xBBBBBB : 0x999999; // léger shading
+        int wall_color;
+
+
+        // position du joueur
+        double posX = cub->player->player_x;
+        double posY = cub->player->player_y;
+
+        // direction de la caméra (où regarde le joueur)
+        double dirX = cub->player->direction;
+        double dirY = cub->player.dir_y;
+
+        // plan caméra (perpendiculaire à dir, pour donner l’angle de vue)
+        double planeX = cub->player.plane_x;
+        double planeY = cub->player.plane_y;
+
+        double camX = 2 * x / (double)cub->screen_w - 1; // [-1, +1]
+
+        // direction du rayon
+        double ray_dir_x = cos(cub->player->player_direction) + cub->planeX * camX;
+        double ray_dir_y = -sin(cub->player->player_direction) + cub->planeY * camX;
+
+        if (side == 0) // mur vertical
+        {
+            if (raydir_x > 0)
+                wall_color = 0xFF0000; // Est (rouge)
+            else
+                wall_color = 0x00FF00; // Ouest (vert)
+        }
+        else // mur horizontal
+        {
+            if (raydir_y > 0)
+                wall_color = 0x0000FF; // Sud (bleu)
+            else
+                wall_color = 0xFFFF00; // Nord (jaune)
+        }
+
+        // léger shading couleur des mures, a changer
         draw_vertical_line(cub, x, draw_s, draw_e, wall_color);
+        x++;
     }
 }
 
-// static void draw_walls(t_cub *cub)
-// {
-//     int x;
-
-//     x = 0;
-//     while (x < cub->width * TILE_SIZE)
-//     {
-//         double cam = ((double)x / (double) cub->width * TILE_SIZE) - 0.5;
-//         double ray_angle = cub->player->player_direction + cam * FOV_RAD;
-
-//         int side = 0;
-//         double dist = cast_ray(cub, ray_angle, &side);
-
-//         int line_h   = (int)((cub->height * TILE_SIZE) / dist);
-//         int draw_s   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
-//         int draw_e   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
-
-//         int wall_color = (side == 0) ? 0xBBBBBB : 0x999999; // léger shading
-//         draw_vertical_line(cub, x, draw_s, draw_e, wall_color);
-
-//         x++;
-//     }
-// }
 
 void draw_frame(t_cub *cub)
 {
