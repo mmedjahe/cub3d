@@ -97,7 +97,36 @@ void draw_walls(t_cub *cub)
         draw_e = line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
         int wall_color;
-        wall_color = (side == 0) ? 0xBBBBBB : 0x999999; // léger shading
+
+
+        double dirX = cos(cub->player->player_direction);
+        double dirY = -sin(cub->player->player_direction);
+
+        double planeX = -dirY * tan(FOV_RAD / 2);
+        double planeY = dirX * tan(FOV_RAD / 2);
+
+        double camX = 2 * x / (double)screen_w - 1;
+
+        // ➜ direction du rayon
+        double ray_dir_x = dirX + planeX * camX;
+        double ray_dir_y = dirY + planeY * camX;
+
+
+        if (side == 0) // mur vertical → Est ou Ouest
+        {
+            if (ray_dir_x > 0)
+                wall_color = 0xFF0000; // Est (rouge)
+            else
+                wall_color = 0x00FF00; // Ouest (vert)
+        }
+        else // side == 1 → mur horizontal → Nord ou Sud
+        {
+            if (ray_dir_y > 0)
+                wall_color = 0x0000FF; // Sud (bleu)
+            else
+                wall_color = 0xFFFF00; // Nord (jaune)
+        }
+
         draw_vertical_line(cub, x, draw_s, draw_e, wall_color);
         x++;
     }

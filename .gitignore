@@ -1,0 +1,23 @@
+# Fichiers objets
+*.o
+
+# Exécutables
+cub3d
+
+# Fichiers de debug / core dump
+*.out
+*.log
+*.dSYM/
+core
+
+# Fichiers temporaires éditeur
+*~
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Makefile artefacts
+*.a
+*.so
