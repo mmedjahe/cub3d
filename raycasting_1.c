@@ -27,16 +27,46 @@ static double cast_ray(t_cub *cub, double ray_angle, int *out_side)
     int mapY;
     mapY = (int)posY;
 
-    double deltaDistX = (rayDirX == 0.0) ? 1e30 : fabs(1.0 / rayDirX);
-    double deltaDistY = (rayDirY == 0.0) ? 1e30 : fabs(1.0 / rayDirY);
+    double deltaDistX;
+    if (rayDirX == 0.0)
+        deltaDistX = 1e30;
+    else
+        deltaDistX = fabs(1.0 / rayDirX);
 
-    int stepX, stepY;
-    double sideDistX, sideDistY;
+    double deltaDistY;
+    if (rayDirY == 0.0)
+        deltaDistY = 1e30;
+    else
+        deltaDistY = fabs(1.0 / rayDirY);
 
-    if (rayDirX < 0) { stepX = -1; sideDistX = (posX - mapX) * deltaDistX; }
-    else             { stepX =  1; sideDistX = (mapX + 1.0 - posX) * deltaDistX; }
-    if (rayDirY < 0) { stepY = -1; sideDistY = (posY - mapY) * deltaDistY; }
-    else             { stepY =  1; sideDistY = (mapY + 1.0 - posY) * deltaDistY; }
+    int stepX;
+    int stepY;
+
+    double sideDistX;
+    double sideDistY;
+
+    if (rayDirX < 0)
+    {
+        stepX = -1;
+        sideDistX = (posX - mapX) * deltaDistX;
+    }
+    else
+    {
+        stepX = 1;
+        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+    }
+
+    if (rayDirY < 0)
+    {
+        stepY = -1;
+        sideDistY = (posY - mapY) * deltaDistY;
+    }
+    else
+    {
+        stepY = 1;
+        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+    }
+
 
     int hit;
     int side;
