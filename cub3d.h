@@ -35,6 +35,8 @@
 #endif
 #define TILE_SIZE 32
 
+
+
 typedef struct s_player
 {
     double player_y;
@@ -53,6 +55,11 @@ typedef struct s_mlx
     int endian;
 }               t_mlx;
 
+typedef struct s_keys {
+    int w, a, s, d;
+    int left, right;
+} t_keys;
+
 typedef struct s_cub
 {
     char *NO;
@@ -66,6 +73,7 @@ typedef struct s_cub
     int width;
     t_mlx mlx;
     t_player *player;
+    t_keys keys;
 }              t_cub;
 
 typedef struct s_node
@@ -103,6 +111,6 @@ int handle_key(int keycode, t_cub *cub);
 int get_color(int *value_color);
 int is_wall_or_void(t_cub *cub, int mx, int my);
 void draw_vertical_line(t_cub *cub, int x, int start, int end, int color);
-
+int hooks_game(t_cub *cub);
 
 #endif

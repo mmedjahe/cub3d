@@ -39,14 +39,3 @@ void put_pixel(t_cub *cub, int x, int y, int color)
     dst = cub->mlx.addr + (y * cub->mlx.line_length + x * (cub->mlx.bits_per_pixel / 8));
     *(unsigned int *) dst = color;
 }
-
-
-int handle_key(int keycode, t_cub *cub)
-{
-    if (keycode == 65307)
-    {
-        mlx_destroy_window(cub->mlx.mlx, cub->mlx.win);
-        exit(0);
-    }
-    return (0);
-}

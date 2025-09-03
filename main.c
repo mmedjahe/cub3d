@@ -59,7 +59,7 @@ void    init_mlx(t_cub *cub)
                      &cub->mlx.endian);
     draw_frame(cub);
     mlx_put_image_to_window(cub->mlx.mlx, cub->mlx.win, cub->mlx.img, 0,0);
-    mlx_hook(cub->mlx.win, 2, 1L<<0, handle_key, cub);
+    hooks_game(cub);
     mlx_loop(cub->mlx.mlx);
 }
 
