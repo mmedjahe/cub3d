@@ -114,15 +114,23 @@ void get_player_loc(t_cub *cub)
             {
                 cub->player->player_y = (double)i + 0.5;
                 cub->player->player_x = (double)x + 0.5;;
+                // if (cub->map[i][x] == 'N')
+                //     cub->player->player_direction = M_PI_2;
+                // else if (cub->map[i][x] == 'S')
+                //     cub->player->player_direction = 3 * M_PI_2;
+                // else if (cub->map[i][x] == 'E')
+                //     cub->player->player_direction = 0;
+                // else if (cub->map[i][x] == 'W')
+                //     cub->player->player_direction = M_PI;
+                // return;
                 if (cub->map[i][x] == 'N')
-                    cub->player->player_direction = M_PI_2;
+                    cub->player->player_direction = 3 * M_PI_2; // = -M_PI_2
                 else if (cub->map[i][x] == 'S')
-                    cub->player->player_direction = 3 * M_PI_2;
+                    cub->player->player_direction = M_PI_2;
                 else if (cub->map[i][x] == 'E')
                     cub->player->player_direction = 0;
                 else if (cub->map[i][x] == 'W')
                     cub->player->player_direction = M_PI;
-                return;
             }
             x++;
         }

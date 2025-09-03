@@ -111,6 +111,5 @@ int handle_key(int keycode, t_cub *cub);
 int get_color(int *value_color);
 int is_wall_or_void(t_cub *cub, int mx, int my);
 void draw_vertical_line(t_cub *cub, int x, int start, int end, int color);
-int hooks_game(t_cub *cub);
 
 #endif
