@@ -40,8 +40,4 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
 
-<<<<<<< HEAD
 re: fclean all
-=======
-re: fclean all
->>>>>>> origin/ADO
