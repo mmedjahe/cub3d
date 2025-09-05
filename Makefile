@@ -5,7 +5,11 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 
 
+<<<<<<< HEAD
 SRCS = main.c parsing.c parsing_2.c parsing_3.c map.c mlx.c
+=======
+SRCS = main.c parsing.c parsing_2.c parsing_3.c map.c mlx.c raycasting_1.c raycasting_2.c hooks.c
+>>>>>>> origin/ADO
 
 OBJS = $(SRCS:.c=.o)
 
@@ -40,4 +44,8 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
 
+<<<<<<< HEAD
 re: fclean all
+=======
+re: fclean all
+>>>>>>> origin/ADO

@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 21:45:20 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/05 22:47:08 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,16 @@
 # define M_PI_2 (M_PI / 2)
 #endif
 
+#ifndef FOV_DEG
+# define FOV_DEG 60.0
+#endif
+
+#ifndef FOV_RAD
+# define FOV_RAD (FOV_DEG * M_PI / 180.0)
+#endif
 #define TILE_SIZE 32
+
+
 
 typedef struct s_player
 {
@@ -41,10 +50,15 @@ typedef struct s_mlx
     void *win;
     void *img;
     void *addr;
-    int bits_per_pixel; 
+    int bits_per_pixel;
     int line_length;
     int endian;
 }               t_mlx;
+
+typedef struct s_keys {
+    int w, a, s, d;
+    int left, right;
+} t_keys;
 
 typedef struct s_cub
 {
@@ -59,6 +73,7 @@ typedef struct s_cub
     int width;
     t_mlx mlx;
     t_player *player;
+    t_keys keys;
 }              t_cub;
 
 typedef struct s_node
@@ -87,9 +102,14 @@ void verif_file_format(char *file, t_cub *cub);
 void check_map(t_cub *cub);
 void player_count(t_cub *cub);
 void is_map_closed(t_cub *cub);
-char **rectang_map(t_cub *cub, char **original_map);
-void get_player_loc(t_cub *cub);
+void still_checking_if_closed(t_cub *cub);
+void get_player_loc(t_cub *cub, int i);
 void draw_frame(t_cub *cub);
 void put_pixel(t_cub *cub, int y, int x, int color);
 void draw_tile(t_cub *cub, int x, int y, int color);
-#endif 
+int handle_key(int keycode, t_cub *cub);
+int get_color(int *value_color);
+int is_wall_or_void(t_cub *cub, int mx, int my);
+void draw_vertical_line(t_cub *cub, int x, int start, int end, int color);
+
+#endif

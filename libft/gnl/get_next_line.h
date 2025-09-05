@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:45:57 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 21:49:36 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/05 22:43:30 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-#include "../libft.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 3
