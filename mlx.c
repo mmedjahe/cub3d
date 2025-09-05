@@ -12,30 +12,29 @@
 
 #include "cub3d.h"
 
-
-void draw_tile(t_cub *cub, int x, int y, int color)
+void	draw_tile(t_cub *cub, int x, int y, int color)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 0;
-    while (i < TILE_SIZE)
-    {
-        j = 0;
-        while (j < TILE_SIZE)
-        {
-            put_pixel(cub, x * TILE_SIZE + j, y * TILE_SIZE + i, color);
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	while (i < TILE_SIZE)
+	{
+		j = 0;
+		while (j < TILE_SIZE)
+		{
+			put_pixel(cub, x * TILE_SIZE + j, y * TILE_SIZE + i, color);
+			j++;
+		}
+		i++;
+	}
 }
 
-
-void put_pixel(t_cub *cub, int x, int y, int color)
+void	put_pixel(t_cub *cub, int x, int y, int color)
 {
-    char *dst;
+	char	*dst;
 
-    dst = cub->mlx.addr + (y * cub->mlx.line_length + x * (cub->mlx.bits_per_pixel / 8));
-    *(unsigned int *) dst = color;
+	dst = cub->mlx.addr + (y * cub->mlx.line_length + x
+			* (cub->mlx.bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }
