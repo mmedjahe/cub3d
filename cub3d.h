@@ -103,7 +103,7 @@ void check_map(t_cub *cub);
 void player_count(t_cub *cub);
 void is_map_closed(t_cub *cub);
 void still_checking_if_closed(t_cub *cub);
-void get_player_loc(t_cub *cub);
+void get_player_loc(t_cub *cub, int i);
 void draw_frame(t_cub *cub);
 void put_pixel(t_cub *cub, int y, int x, int color);
 void draw_tile(t_cub *cub, int x, int y, int color);
