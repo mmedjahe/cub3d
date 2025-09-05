@@ -119,43 +119,42 @@ void draw_walls(t_cub *cub)
         side = 0;
         double dist = cast_ray(cub, ray_angle, &side);
 
-        int line_h;
-        line_h = (int)((cub->height * TILE_SIZE) / dist);
-        int draw_s;
-        draw_s = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
-        int draw_e;
-        draw_e = line_h / 2 + (cub->height * TILE_SIZE) / 2;
+
+
+
+
+        double ray_dir_x = cos(ray_angle);
+        double ray_dir_y = sin(ray_angle);
+
+        double perp_dist = dist * cos(ray_angle - cub->player->player_direction);
+
+        int line_h   = (int)((cub->height * TILE_SIZE) / (perp_dist > 1e-6 ? perp_dist : 1e-6));
+        int draw_s   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
+        int draw_e   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
+
 
         int wall_color;
-
-
-        double dirX = cos(cub->player->player_direction);
-        double dirY = -sin(cub->player->player_direction);
-
-        double planeX = -dirY * tan(FOV_RAD / 2);
-        double planeY = dirX * tan(FOV_RAD / 2);
-
-        double camX = 2 * x / (double)screen_w - 1;
-
-        // ➜ direction du rayon
-        double ray_dir_x = dirX + planeX * camX;
-        double ray_dir_y = dirY + planeY * camX;
-
-
-        if (side == 0) // mur vertical → Est ou Ouest
-        {
-            if (ray_dir_x > 0)
-                wall_color = 0xFF0000; // Est (rouge)
-            else
-                wall_color = 0x00FF00; // Ouest (vert)
+        if (side == 0) {
+            // Mur vertical (E/O)
+            if (ray_dir_x > 0) {
+                // Est
+                wall_color = 0xFF0000;
+            } else {
+                // Ouest
+                wall_color = 0x00FF00;
+            }
+        } else {
+            // Mur horizontal (N/S)
+            if (ray_dir_y > 0) {
+                // Sud
+                wall_color = 0x0000FF;
+            } else {
+                // Nord
+                wall_color = 0xFFFF00;
+            }
         }
-        else // side == 1 → mur horizontal → Nord ou Sud
-        {
-            if (ray_dir_y > 0)
-                wall_color = 0x0000FF; // Sud (bleu)
-            else
-                wall_color = 0xFFFF00; // Nord (jaune)
-        }
+
+
 
         draw_vertical_line(cub, x, draw_s, draw_e, wall_color);
         x++;
