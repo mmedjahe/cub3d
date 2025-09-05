@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 00:31:11 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 22:48:25 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/05 23:11:52 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void is_map_closed(t_cub *cub)
     }
     free_tab(map);
     cub->height = y;
-    printf("%d, %d\n", cub->width, cub->height);
 }
 
 void player_count(t_cub *cub)

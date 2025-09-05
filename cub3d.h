@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 22:47:08 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/05 23:06:12 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void check_map(t_cub *cub);
 void player_count(t_cub *cub);
 void is_map_closed(t_cub *cub);
 void still_checking_if_closed(t_cub *cub);
-void get_player_loc(t_cub *cub, int i);
+void get_player_loc(t_cub *cub);
+char **rectang_map(t_cub *cub, char **original_map);
 void draw_frame(t_cub *cub);
 void put_pixel(t_cub *cub, int y, int x, int color);
 void draw_tile(t_cub *cub, int x, int y, int color);

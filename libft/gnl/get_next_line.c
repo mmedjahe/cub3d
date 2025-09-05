@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 19:58:47 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 22:45:50 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/05 23:07:18 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,4 @@ char	*removeline(char **statik)
 	nstatik[i - x] = '\0';
 	*statik = nstatik;
 	return (finalstring);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if (!dest && !src)
-		return (NULL);
-	while (i < n)
-	{
-		*(unsigned char *)(dest + i) = *(unsigned const char *)(src + i);
-		i++;
-	}
-	return (dest);
 }
