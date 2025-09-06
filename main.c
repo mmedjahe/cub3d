@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 00:34:23 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 22:47:45 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/06 20:15:43 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ void	init_mlx(t_cub *cub)
 	draw_frame(cub);
 	mlx_put_image_to_window(cub->mlx.mlx, cub->mlx.win, cub->mlx.img, 0, 0);
 	mlx_hook(cub->mlx.win, 2, 1L << 0, handle_key, cub);
+	mlx_hook(cub->mlx.win, 17, 0L, close_window, cub);
 	mlx_loop(cub->mlx.mlx);
 }
 
 int	ft_error(char *str, t_cub *cub)
 {
 	printf("%s\n", str);
+	cleanup_mlx(cub);
 	if (cub->NO)
 		free(cub->NO);
 	if (cub->SO)
@@ -107,4 +109,23 @@ int	main(int c, char **v)
 		ft_error("everything ok", &cub);
 	}
 	return (0);
+}
+
+int close_window(t_cub *cub)
+{
+	ft_error("", cub);
+	return(0);
+}
+
+void cleanup_mlx(t_cub *cub)
+{
+    if (cub->mlx.mlx)
+    {
+        if (cub->mlx.img)
+            mlx_destroy_image(cub->mlx.mlx, cub->mlx.img);
+        if (cub->mlx.win)
+            mlx_destroy_window(cub->mlx.mlx, cub->mlx.win);
+        mlx_destroy_display(cub->mlx.mlx);
+        free(cub->mlx.mlx);
+    }
 }

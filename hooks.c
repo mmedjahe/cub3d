@@ -48,7 +48,7 @@ int	handle_key(int keycode, t_cub *cub)
 	dx = cos(a);
 	dy = sin(a);
 	if (keycode == 65307)
-		(mlx_destroy_window(cub->mlx.mlx, cub->mlx.win), exit(0));
+		ft_error("", cub);
 	if (keycode == 119)
 		if_cub_place_pos(cub, dx, dy);
 	else if (keycode == 115)

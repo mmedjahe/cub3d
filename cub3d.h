@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 23:06:12 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/06 20:16:02 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void verif_file_format(char *file, t_cub *cub);
 void check_map(t_cub *cub);
 void player_count(t_cub *cub);
 void is_map_closed(t_cub *cub);
-void still_checking_if_closed(t_cub *cub);
 void get_player_loc(t_cub *cub);
 char **rectang_map(t_cub *cub, char **original_map);
 void draw_frame(t_cub *cub);
@@ -112,5 +111,6 @@ int handle_key(int keycode, t_cub *cub);
 int get_color(int *value_color);
 int is_wall_or_void(t_cub *cub, int mx, int my);
 void draw_vertical_line(t_cub *cub, int x, int start, int end, int color);
-
+int close_window(t_cub *cub);
+void cleanup_mlx(t_cub *cub);
 #endif
