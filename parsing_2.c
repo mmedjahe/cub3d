@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:25:31 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 22:49:13 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/06 19:41:52 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void verif_map(t_cub *cub)
         while (cub->map[i][x])
         {
             if(cub->map[i][x] !='0' && cub->map[i][x] !='1' && cub->map[i][x] !='N' 
-            && cub->map[i][x] !='S' && cub->map[i][x] !='W' && cub->map[i][x] !='E')
+            && cub->map[i][x] !='S' && cub->map[i][x] !='W' && cub->map[i][x] !='E'
+        && cub->map[i][x] !=' ')
                 ft_error("map contains invalid characters", cub);
             x++;
         }
