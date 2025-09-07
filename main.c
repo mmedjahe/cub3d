@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 00:34:23 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:03:45 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 21:15:41 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,18 @@ void	init_mlx(t_cub *cub)
 int	ft_error(char *str, t_cub *cub)
 {
 	printf("%s\n", str);
-
-    cleanup_mlx(cub);
-    if (cub->NO) 
+	cleanup_mlx(cub);
+	if (cub->NO)
 		free(cub->NO);
-    if (cub->SO) 
+	if (cub->SO)
 		free(cub->SO);
-    if (cub->WE) 
+	if (cub->WE)
 		free(cub->WE);
-    if (cub->EA) 
+	if (cub->EA)
 		free(cub->EA);
-    if (cub->map) 
+	if (cub->map)
 		free_tab(cub->map);
-    if (cub->player) 
+	if (cub->player)
 		free(cub->player);
 	exit(0);
 }
@@ -119,4 +118,3 @@ int	main(int c, char **v)
 	}
 	return (0);
 }
-
