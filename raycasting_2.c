@@ -2,77 +2,113 @@
 
 #include "cub3d.h"
 
-
-int get_color(int *value_color)
+int	get_color(int *value_color)
 {
-    return (value_color[0] * 65536 + value_color[1] * 256 + value_color[2]);
+	return (value_color[0] * 65536 + value_color[1] * 256 + value_color[2]);
 }
 
-int is_wall_or_void(t_cub *cub, int mx, int my)
+int	is_wall_or_void(t_cub *cub, int mx, int my)
 {
-    int rowlen;
+	int		rowlen;
+	char	c;
 
-    if (my < 0 || my >= cub->height || mx < 0)
-        return (1);
-    rowlen = (int)ft_strlen(cub->map[my]);
-    if (mx >= rowlen)
-        return (1);
-    char c = cub->map[my][mx];
-    return (c == '1' || c == ' ' || c == '\t');
+	if (my < 0 || my >= cub->height || mx < 0)
+		return (1);
+	rowlen = (int)ft_strlen(cub->map[my]);
+	if (mx >= rowlen)
+		return (1);
+	c = cub->map[my][mx];
+	return (c == '1' || c == ' ' || c == '\t');
 }
-t_img *pick_texture(t_cub *cub, char orientation)
+t_img	*pick_texture(t_cub *cub, char orientation)
 {
-    if (orientation == 'n')
-        return &cub->mlx.no_tex;
-    if (orientation == 's')
-        return &cub->mlx.so_tex;
-    if (orientation == 'e')
-        return &cub->mlx.ea_tex;
-    return &cub->mlx.we_tex;
-}
-
-/* version texturée */
-void draw_vertical_line(t_cub *cub, int x, char orientation, int line_h, int texX)
-{
-    int     screen_h = cub->height * TILE_SIZE;
-    t_img  *tex = pick_texture(cub, orientation);
-    int start   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
-    int end   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
-
-    if (start < 0)
-        start = 0;
-    if (end >= screen_h) end = screen_h - 1;
-
-    /* Pas vertical dans la texture (combien de texels par pixel écran) */
-    double step = (double)tex->h / (double)line_h;
-
-    /* Position initiale dans la texture :
-       on veut que y=start corresponde au texel du haut du mur */
-    double texPos = (start - (-line_h / 2.0 + screen_h / 2.0)) * step;
-
-    int y = start;
-    while (y <= end) {
-        int texY = (int)texPos;
-        if (texY < 0)
-            texY = 0;
-        if (texY >= tex->h)
-            texY = tex->h - 1;
-        texPos += step;
-
-        unsigned int color = tex_px(tex, texX, texY);
-
-        /* (optionnel) assombrir les murs “de côté” pour du relief */
-        // if (side == 1) color = ((color & 0xFEFEFE) >> 1) | (color & 0xFF000000);
-
-        put_pixel(cub, x, y, (int)color);
-        y++;
-    }
+	if (orientation == 'n')
+		return (&cub->mlx.no_tex);
+	if (orientation == 's')
+		return (&cub->mlx.so_tex);
+	if (orientation == 'e')
+		return (&cub->mlx.ea_tex);
+	return (&cub->mlx.we_tex);
 }
 
 
-
-unsigned int tex_px(const t_img *im, int x, int y)
+static char get_orientation(t_cub *cub, int x)
 {
-    char *p = im->addr + y * im->line_len + x * (im->bpp / 8);
-    return *(unsigned int *)p;
+
+    int screen_w;
+
+    screen_w= cub->width * TILE_SIZE;
+        double cam = ((double)x / (double)screen_w) - 0.5;
+        double ray_angle = cub->player->player_direction + cam * FOV_RAD;
+
+        int side;
+        side = 0;
+        cast_ray(cub, ray_angle, &side);
+
+        double ray_dir_x = cos(ray_angle);
+        double ray_dir_y = sin(ray_angle);
+
+
+
+        char orientation;
+        if (side == 0) {
+            if (ray_dir_x > 0) {
+                orientation = 'e';
+            } else {
+                orientation = 'w';
+            }
+        } else {
+            if (ray_dir_y > 0) {
+                orientation = 's';
+            } else {
+                orientation = 'n';
+            }
+        }
+    return (orientation);
+}
+
+void	draw_vertical_line(t_cub *cub, int x, int line_h, int texX)
+{
+	int				screen_h;
+	t_img			*tex;
+	int				start;
+	int				end;
+	double			step;
+	double			texPos;
+	int				y;
+	int				texY;
+	unsigned int	color;
+
+	screen_h = cub->height * TILE_SIZE;
+	tex = pick_texture(cub, get_orientation(cub, x));
+
+    start = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
+	end = line_h / 2 + (cub->height * TILE_SIZE) / 2;
+	if (start < 0)
+		start = 0;
+	if (end >= screen_h)
+		end = screen_h - 1;
+	step = (double)tex->h / (double)line_h;
+	texPos = (start - (-line_h / 2.0 + screen_h / 2.0)) * step;
+	y = start;
+	while (y <= end)
+	{
+		texY = (int)texPos;
+		if (texY < 0)
+			texY = 0;
+		if (texY >= tex->h)
+			texY = tex->h - 1;
+		texPos += step;
+		color = tex_px(tex, texX, texY);
+		put_pixel(cub, x, y, (int)color);
+		y++;
+	}
+}
+
+unsigned int	tex_px(const t_img *im, int x, int y)
+{
+	char	*p;
+
+	p = im->addr + y * im->line_len + x * (im->bpp / 8);
+	return (*(unsigned int *)p);
 }

@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:06:16 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:03:57 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 21:46:52 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-static double cast_ray(t_cub *cub, double ray_angle, int *out_side)
+double cast_ray(t_cub *cub, double ray_angle, int *out_side)
 {
     double posX = cub->player->player_x + 0.5;
     double posY = cub->player->player_y + 0.5;
@@ -119,32 +119,31 @@ void draw_walls(t_cub *cub)
         side = 0;
         double dist = cast_ray(cub, ray_angle, &side);
 
-
-
-
-
         double ray_dir_x = cos(ray_angle);
         double ray_dir_y = sin(ray_angle);
 
         double perp_dist = dist * cos(ray_angle - cub->player->player_direction);
 
-        int line_h   = (int)((cub->height * TILE_SIZE) / (perp_dist > 1e-6 ? perp_dist : 1e-6));
+        int line_h;
+        double safe_dist;
+
+        if (perp_dist > 1e-6)
+            safe_dist = perp_dist;
+        else
+            safe_dist = 1e-6;
+        line_h = (int)((cub->height * TILE_SIZE) / safe_dist);
 
         char orientation;
         if (side == 0) {
             if (ray_dir_x > 0) {
                 orientation = 'e';
             } else {
-                // Ouest
                 orientation = 'w';
             }
         } else {
-            // Mur horizontal (N/S)
             if (ray_dir_y > 0) {
-                // Sud
                 orientation = 's';
             } else {
-                // Nord
                 orientation = 'n';
             }
         }
@@ -152,16 +151,15 @@ void draw_walls(t_cub *cub)
         t_img *tex = pick_texture(cub, orientation);
         double wallX;
         if (side == 0)
-            wallX = cub->player->player_y + perp_dist * ray_dir_y; // impact sur mur vertical (E/O)
+            wallX = cub->player->player_y + perp_dist * ray_dir_y;
         else
-            wallX = cub->player->player_x + perp_dist * ray_dir_x; // impact sur mur horizontal (N/S)
+            wallX = cub->player->player_x + perp_dist * ray_dir_x;
         wallX -= floor(wallX);
 
         int texX = (int)(wallX * (double)tex->w);
         if (side == 0 && ray_dir_x > 0) texX = tex->w - texX - 1;
         if (side == 1 && ray_dir_y < 0) texX = tex->w - texX - 1;
-        // draw_vertical_line(cub, x, draw_s, draw_e, orientation);
-        draw_vertical_line(cub, x, orientation, line_h, texX);
+        draw_vertical_line(cub, x, line_h, texX);
         x++;
     }
 }
