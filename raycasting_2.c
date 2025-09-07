@@ -38,7 +38,8 @@ void draw_vertical_line(t_cub *cub, int x, int start, int end,
     int     screen_h = cub->height * TILE_SIZE;
     t_img  *tex = pick_texture(cub, orientation);
 
-    if (start < 0) start = 0;
+    if (start < 0)
+        start = 0;
     if (end >= screen_h) end = screen_h - 1;
 
     /* Pas vertical dans la texture (combien de texels par pixel écran) */
@@ -48,10 +49,13 @@ void draw_vertical_line(t_cub *cub, int x, int start, int end,
        on veut que y=start corresponde au texel du haut du mur */
     double texPos = (start - (-line_h / 2.0 + screen_h / 2.0)) * step;
 
-    for (int y = start; y <= end; ++y) {
+    int y = start;
+    while (y <= end) {
         int texY = (int)texPos;
-        if (texY < 0) texY = 0;
-        if (texY >= tex->h) texY = tex->h - 1;
+        if (texY < 0)
+            texY = 0;
+        if (texY >= tex->h)
+            texY = tex->h - 1;
         texPos += step;
 
         unsigned int color = tex_px(tex, texX, texY);
@@ -60,6 +64,7 @@ void draw_vertical_line(t_cub *cub, int x, int start, int end,
         // if (side == 1) color = ((color & 0xFEFEFE) >> 1) | (color & 0xFF000000);
 
         put_pixel(cub, x, y, (int)color);
+        y++;
     }
 }
 

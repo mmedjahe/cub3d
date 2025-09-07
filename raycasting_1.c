@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:06:16 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 20:45:04 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 21:00:14 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ void draw_walls(t_cub *cub)
         int texX = (int)(wallX * (double)tex->w);
         if (side == 0 && ray_dir_x > 0) texX = tex->w - texX - 1;
         if (side == 1 && ray_dir_y < 0) texX = tex->w - texX - 1;
-        draw_vertical_line(cub, x, draw_s, draw_e, orientation);
+        // draw_vertical_line(cub, x, draw_s, draw_e, orientation);
+        draw_vertical_line(cub, x, draw_s, draw_e, orientation, line_h, texX);
         x++;
     }
 }
