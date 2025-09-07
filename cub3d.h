@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:46:42 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 21:59:40 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,6 @@ void load_textures(t_cub *cub);
 t_img *pick_texture(t_cub *cub, char orientation);
 unsigned int tex_px(const t_img *im, int x, int y);
 double cast_ray(t_cub *cub, double ray_angle, int *out_side);
+char letter_orientation(int side, double ray_dir_x, double ray_dir_y);
+
 #endif

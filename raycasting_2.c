@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting_2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 21:49:01 by apesic            #+#    #+#             */
+/*   Updated: 2025/09/07 21:59:59 by apesic           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "cub3d.h"
@@ -31,40 +42,23 @@ t_img	*pick_texture(t_cub *cub, char orientation)
 	return (&cub->mlx.we_tex);
 }
 
-
-static char get_orientation(t_cub *cub, int x)
+static char	get_orientation(t_cub *cub, int x)
 {
+	int		screen_w;
+	double	cam;
+	double	ray_angle;
+	int		side;
+	double	ray_dir_x;
+	double	ray_dir_y;
 
-    int screen_w;
-
-    screen_w= cub->width * TILE_SIZE;
-        double cam = ((double)x / (double)screen_w) - 0.5;
-        double ray_angle = cub->player->player_direction + cam * FOV_RAD;
-
-        int side;
-        side = 0;
-        cast_ray(cub, ray_angle, &side);
-
-        double ray_dir_x = cos(ray_angle);
-        double ray_dir_y = sin(ray_angle);
-
-
-
-        char orientation;
-        if (side == 0) {
-            if (ray_dir_x > 0) {
-                orientation = 'e';
-            } else {
-                orientation = 'w';
-            }
-        } else {
-            if (ray_dir_y > 0) {
-                orientation = 's';
-            } else {
-                orientation = 'n';
-            }
-        }
-    return (orientation);
+	screen_w = cub->width * TILE_SIZE;
+	cam = ((double)x / (double)screen_w) - 0.5;
+	ray_angle = cub->player->player_direction + cam * FOV_RAD;
+	side = 0;
+	cast_ray(cub, ray_angle, &side);
+	ray_dir_x = cos(ray_angle);
+	ray_dir_y = sin(ray_angle);
+	return (letter_orientation(side, ray_dir_x, ray_dir_y));
 }
 
 void	draw_vertical_line(t_cub *cub, int x, int line_h, int texX)
@@ -81,8 +75,7 @@ void	draw_vertical_line(t_cub *cub, int x, int line_h, int texX)
 
 	screen_h = cub->height * TILE_SIZE;
 	tex = pick_texture(cub, get_orientation(cub, x));
-
-    start = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
+	start = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
 	end = line_h / 2 + (cub->height * TILE_SIZE) / 2;
 	if (start < 0)
 		start = 0;

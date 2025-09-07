@@ -6,186 +6,103 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:06:16 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:46:52 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 21:59:29 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-
-double cast_ray(t_cub *cub, double ray_angle, int *out_side)
+char letter_orientation(int side, double ray_dir_x, double ray_dir_y)
 {
-    double posX = cub->player->player_x + 0.5;
-    double posY = cub->player->player_y + 0.5;
+    char orientation;
 
-    double rayDirX = cos(ray_angle);
-    double rayDirY = sin(ray_angle);
-
-    int mapX;
-    mapX = (int)posX;
-    int mapY;
-    mapY = (int)posY;
-
-    double deltaDistX;
-    if (rayDirX == 0.0)
-        deltaDistX = 1e30;
-    else
-        deltaDistX = fabs(1.0 / rayDirX);
-
-    double deltaDistY;
-    if (rayDirY == 0.0)
-        deltaDistY = 1e30;
-    else
-        deltaDistY = fabs(1.0 / rayDirY);
-
-    int stepX;
-    int stepY;
-
-    double sideDistX;
-    double sideDistY;
-
-    if (rayDirX < 0)
-    {
-        stepX = -1;
-        sideDistX = (posX - mapX) * deltaDistX;
-    }
-    else
-    {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-    }
-
-    if (rayDirY < 0)
-    {
-        stepY = -1;
-        sideDistY = (posY - mapY) * deltaDistY;
-    }
-    else
-    {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-    }
-
-
-    int hit;
-    int side;
-    hit = 0;
-    side = 0;
-    int safety;
-    safety = cub->width * cub->height * 4;
-    while (!hit && safety-- > 0)
-    {
-        if (sideDistX < sideDistY)
-        {
-            sideDistX += deltaDistX;
-            mapX += stepX;
-            side = 0; // mur vertical
-        }
-        else
-        {
-            sideDistY += deltaDistY;
-            mapY += stepY;
-            side = 1; // mur horizontal
-        }
-        if (is_wall_or_void(cub, mapX, mapY))
-            hit = 1;
-    }
-
-    double perp;
     if (side == 0)
-        perp = (mapX - posX + (1 - stepX) / 2.0) / (rayDirX == 0.0 ? 1e-9 : rayDirX);
+    {
+        if (ray_dir_x > 0)
+            orientation = 'e';
+        else
+            orientation = 'w';
+    }
     else
-        perp = (mapY - posY + (1 - stepY) / 2.0) / (rayDirY == 0.0 ? 1e-9 : rayDirY);
-
-    if (out_side) *out_side = side;
-    if (perp < 1e-6) perp = 1e-6;
-    return fabs(perp);
+    {
+        if (ray_dir_y > 0)
+            orientation = 's';
+        else
+            orientation = 'n';
+    }
+    return (orientation);
 }
 
-void draw_walls(t_cub *cub)
+void	draw_walls(t_cub *cub)
 {
-    int screen_w;
-    int x;
+	int		screen_w;
+	int		x;
+	double	cam;
+	double	ray_angle;
+		int side;
+	double	dist;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	perp_dist;
+		int line_h;
+		double safe_dist;
+	t_img	*tex;
+		double wallX;
+	int		texX;
 
-    x = 0;
-    screen_w= cub->width * TILE_SIZE;
-    while (x < screen_w)
-    {
-        double cam = ((double)x / (double)screen_w) - 0.5;
-        double ray_angle = cub->player->player_direction + cam * FOV_RAD;
+	x = 0;
+	screen_w = cub->width * TILE_SIZE;
+	while (x < screen_w)
+	{
+		cam = ((double)x / (double)screen_w) - 0.5;
+		ray_angle = cub->player->player_direction + cam * FOV_RAD;
+		side = 0;
+		dist = cast_ray(cub, ray_angle, &side);
+		ray_dir_x = cos(ray_angle);
+		ray_dir_y = sin(ray_angle);
+		perp_dist = dist * cos(ray_angle - cub->player->player_direction);
+		if (perp_dist > 1e-6)
+			safe_dist = perp_dist;
+		else
+			safe_dist = 1e-6;
+		line_h = (int)((cub->height * TILE_SIZE) / safe_dist);
 
-        int side;
-        side = 0;
-        double dist = cast_ray(cub, ray_angle, &side);
-
-        double ray_dir_x = cos(ray_angle);
-        double ray_dir_y = sin(ray_angle);
-
-        double perp_dist = dist * cos(ray_angle - cub->player->player_direction);
-
-        int line_h;
-        double safe_dist;
-
-        if (perp_dist > 1e-6)
-            safe_dist = perp_dist;
-        else
-            safe_dist = 1e-6;
-        line_h = (int)((cub->height * TILE_SIZE) / safe_dist);
-
-        char orientation;
-        if (side == 0) {
-            if (ray_dir_x > 0) {
-                orientation = 'e';
-            } else {
-                orientation = 'w';
-            }
-        } else {
-            if (ray_dir_y > 0) {
-                orientation = 's';
-            } else {
-                orientation = 'n';
-            }
-        }
-
-        t_img *tex = pick_texture(cub, orientation);
-        double wallX;
-        if (side == 0)
-            wallX = cub->player->player_y + perp_dist * ray_dir_y;
-        else
-            wallX = cub->player->player_x + perp_dist * ray_dir_x;
-        wallX -= floor(wallX);
-
-        int texX = (int)(wallX * (double)tex->w);
-        if (side == 0 && ray_dir_x > 0) texX = tex->w - texX - 1;
-        if (side == 1 && ray_dir_y < 0) texX = tex->w - texX - 1;
-        draw_vertical_line(cub, x, line_h, texX);
-        x++;
-    }
+		tex = pick_texture(cub, letter_orientation(side, ray_dir_x, ray_dir_y));
+		if (side == 0)
+			wallX = cub->player->player_y + perp_dist * ray_dir_y;
+		else
+			wallX = cub->player->player_x + perp_dist * ray_dir_x;
+		wallX -= floor(wallX);
+		texX = (int)(wallX * (double)tex->w);
+		if (side == 0 && ray_dir_x > 0)
+			texX = tex->w - texX - 1;
+		if (side == 1 && ray_dir_y < 0)
+			texX = tex->w - texX - 1;
+		draw_vertical_line(cub, x, line_h, texX);
+		x++;
+	}
 }
 
-
-void draw_frame(t_cub *cub)
+void	draw_frame(t_cub *cub)
 {
-    int y;
-    int color;
-    int x;
+	int	y;
+	int	color;
+	int	x;
 
-    y = 0;
-    while (y < cub->height * TILE_SIZE)
-    {
-        if (y < cub->height * TILE_SIZE / 2)
-            color = get_color(cub->ceiling_colors);
-        else
-            color = get_color(cub->ground_colors);
-
-        x = 0;
-        while (x < cub->width * TILE_SIZE)
-        {
-            put_pixel(cub, x, y, color);
-            x++;
-        }
-        y++;
-    }
-    draw_walls(cub);
+	y = 0;
+	while (y < cub->height * TILE_SIZE)
+	{
+		if (y < cub->height * TILE_SIZE / 2)
+			color = get_color(cub->ceiling_colors);
+		else
+			color = get_color(cub->ground_colors);
+		x = 0;
+		while (x < cub->width * TILE_SIZE)
+		{
+			put_pixel(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+	draw_walls(cub);
 }
