@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:06:16 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 19:59:01 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 20:45:04 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,20 +132,37 @@ void draw_walls(t_cub *cub)
         int draw_s   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
         int draw_e   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
-
+        char orientation;
         if (side == 0) {
             if (ray_dir_x > 0) {
-                draw_vertical_line(cub, x, draw_s, draw_e, 'o');
+                orientation = 'e';
             } else {
-                draw_vertical_line(cub, x, draw_s, draw_e, 'w');
+                // Ouest
+                orientation = 'w';
             }
         } else {
+            // Mur horizontal (N/S)
             if (ray_dir_y > 0) {
-                draw_vertical_line(cub, x, draw_s, draw_e, 's');
+                // Sud
+                orientation = 's';
             } else {
-                draw_vertical_line(cub, x, draw_s, draw_e, 'n');
+                // Nord
+                orientation = 'n';
             }
         }
+
+        t_img *tex = pick_texture(cub, orientation);
+        double wallX;
+        if (side == 0)
+            wallX = cub->player->player_y + perp_dist * ray_dir_y; // impact sur mur vertical (E/O)
+        else
+            wallX = cub->player->player_x + perp_dist * ray_dir_x; // impact sur mur horizontal (N/S)
+        wallX -= floor(wallX);
+
+        int texX = (int)(wallX * (double)tex->w);
+        if (side == 0 && ray_dir_x > 0) texX = tex->w - texX - 1;
+        if (side == 1 && ray_dir_y < 0) texX = tex->w - texX - 1;
+        draw_vertical_line(cub, x, draw_s, draw_e, orientation);
         x++;
     }
 }

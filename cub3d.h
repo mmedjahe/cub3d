@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 19:59:22 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 20:50:39 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@
 #define TILE_SIZE 32
 
 
+typedef struct s_img
+{
+    void    *img;
+    char    *addr;
+    int     w;
+    int     h;
+    int     bpp;
+    int     line_len;
+    int     endian;
+}   t_img;
 
 typedef struct s_player
 {
@@ -53,6 +63,10 @@ typedef struct s_mlx
     int bits_per_pixel;
     int line_length;
     int endian;
+    t_img no_tex;
+    t_img so_tex;
+    t_img we_tex;
+    t_img ea_tex;
 }               t_mlx;
 
 typedef struct s_keys {
@@ -110,7 +124,11 @@ void draw_tile(t_cub *cub, int x, int y, int color);
 int handle_key(int keycode, t_cub *cub);
 int get_color(int *value_color);
 int is_wall_or_void(t_cub *cub, int mx, int my);
-void draw_vertical_line(t_cub *cub, int x, int start, int end, char orientation);
+void draw_vertical_line(t_cub *cub, int x, int start, int end, char orientation, int line_h, int texX);
 int close_window(t_cub *cub);
 void cleanup_mlx(t_cub *cub);
+void load_one(t_cub *cub, t_img *dst, const char *path);
+void load_textures(t_cub *cub);
+t_img *pick_texture(t_cub *cub, char orientation);
+unsigned int tex_px(const t_img *im, int x, int y);
 #endif

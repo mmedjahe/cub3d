@@ -20,19 +20,20 @@ int is_wall_or_void(t_cub *cub, int mx, int my)
     char c = cub->map[my][mx];
     return (c == '1' || c == ' ' || c == '\t');
 }
-// orientation: 'N','S','E','W'  (tu peux aussi supporter 'n','s','e','o')
-static t_img *pick_texture(t_cub *cub, char orientation)
+t_img *pick_texture(t_cub *cub, char orientation)
 {
-    if (orientation == 'N' || orientation == 'n') return &cub->tex.NO;
-    if (orientation == 'S' || orientation == 's') return &cub->tex.SO;
-    if (orientation == 'E' || orientation == 'e') return &cub->tex.EA;
-    /* 'O' ou 'W' pour Ouest/West */
-    return &cub->tex.WE;
+    if (orientation == 'n')
+        return &cub->mlx.no_tex;
+    if (orientation == 's')
+        return &cub->mlx.so_tex;
+    if (orientation == 'e')
+        return &cub->mlx.ea_tex;
+    return &cub->mlx.we_tex;
 }
 
 /* version texturée */
-void draw_vertical_line_tex(t_cub *cub, int x, int start, int end,
-                            char orientation, int line_h, int texX, int side)
+void draw_vertical_line(t_cub *cub, int x, int start, int end,
+                            char orientation, int line_h, int texX)
 {
     int     screen_h = cub->height * TILE_SIZE;
     t_img  *tex = pick_texture(cub, orientation);
@@ -64,7 +65,7 @@ void draw_vertical_line_tex(t_cub *cub, int x, int start, int end,
 
 
 
-static inline unsigned int tex_px(const t_img *im, int x, int y)
+unsigned int tex_px(const t_img *im, int x, int y)
 {
     char *p = im->addr + y * im->line_len + x * (im->bpp / 8);
     return *(unsigned int *)p;
