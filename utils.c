@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 20:16:04 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 20:27:37 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 21:03:56 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ int close_window(t_cub *cub)
 
 void cleanup_mlx(t_cub *cub)
 {
+    if (cub->mlx.no_tex.img)
+    {
+        mlx_destroy_image(cub->mlx.mlx, cub->mlx.no_tex.img);
+    }
+	if(cub->mlx.so_tex.img)
+		mlx_destroy_image(cub->mlx.mlx, cub->mlx.so_tex.img);
+	if (cub->mlx.we_tex.img)
+		mlx_destroy_image(cub->mlx.mlx, cub->mlx.we_tex.img);
+	if (cub->mlx.ea_tex.img)
+		mlx_destroy_image(cub->mlx.mlx, cub->mlx.ea_tex.img);
     if (cub->mlx.mlx)
     {
         if (cub->mlx.img)
