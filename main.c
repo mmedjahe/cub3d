@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 00:34:23 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/06 20:15:43 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 20:31:13 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,27 +105,10 @@ int	main(int c, char **v)
 		init_struct(&cub);
 		parser(&cub, v[1]);
 		check_map(&cub);
+		load_textures(&cub);
 		init_mlx(&cub);
 		ft_error("everything ok", &cub);
 	}
 	return (0);
 }
 
-int close_window(t_cub *cub)
-{
-	ft_error("", cub);
-	return(0);
-}
-
-void cleanup_mlx(t_cub *cub)
-{
-    if (cub->mlx.mlx)
-    {
-        if (cub->mlx.img)
-            mlx_destroy_image(cub->mlx.mlx, cub->mlx.img);
-        if (cub->mlx.win)
-            mlx_destroy_window(cub->mlx.mlx, cub->mlx.win);
-        mlx_destroy_display(cub->mlx.mlx);
-        free(cub->mlx.mlx);
-    }
-}
