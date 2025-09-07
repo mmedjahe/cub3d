@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:06:16 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:00:14 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 21:03:57 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ void draw_walls(t_cub *cub)
         double perp_dist = dist * cos(ray_angle - cub->player->player_direction);
 
         int line_h   = (int)((cub->height * TILE_SIZE) / (perp_dist > 1e-6 ? perp_dist : 1e-6));
-        int draw_s   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
-        int draw_e   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
         char orientation;
         if (side == 0) {
@@ -163,7 +161,7 @@ void draw_walls(t_cub *cub)
         if (side == 0 && ray_dir_x > 0) texX = tex->w - texX - 1;
         if (side == 1 && ray_dir_y < 0) texX = tex->w - texX - 1;
         // draw_vertical_line(cub, x, draw_s, draw_e, orientation);
-        draw_vertical_line(cub, x, draw_s, draw_e, orientation, line_h, texX);
+        draw_vertical_line(cub, x, orientation, line_h, texX);
         x++;
     }
 }

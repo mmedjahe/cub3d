@@ -32,11 +32,12 @@ t_img *pick_texture(t_cub *cub, char orientation)
 }
 
 /* version texturée */
-void draw_vertical_line(t_cub *cub, int x, int start, int end,
-                            char orientation, int line_h, int texX)
+void draw_vertical_line(t_cub *cub, int x, char orientation, int line_h, int texX)
 {
     int     screen_h = cub->height * TILE_SIZE;
     t_img  *tex = pick_texture(cub, orientation);
+    int start   = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
+    int end   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
     if (start < 0)
         start = 0;

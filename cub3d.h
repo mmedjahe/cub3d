@@ -6,7 +6,7 @@
 /*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 20:50:39 by apesic           ###   ########.fr       */
+/*   Updated: 2025/09/07 21:07:01 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void draw_tile(t_cub *cub, int x, int y, int color);
 int handle_key(int keycode, t_cub *cub);
 int get_color(int *value_color);
 int is_wall_or_void(t_cub *cub, int mx, int my);
-void draw_vertical_line(t_cub *cub, int x, int start, int end, char orientation, int line_h, int texX);
+void draw_vertical_line(t_cub *cub, int x, int end, char orientation, int line_h, int texX);
 int close_window(t_cub *cub);
 void cleanup_mlx(t_cub *cub);
 void load_one(t_cub *cub, t_img *dst, const char *path);
