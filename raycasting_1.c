@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   raycasting_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:06:16 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/08/20 22:32:31 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 19:59:01 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,30 +133,19 @@ void draw_walls(t_cub *cub)
         int draw_e   =  line_h / 2 + (cub->height * TILE_SIZE) / 2;
 
 
-        int wall_color;
         if (side == 0) {
-            // Mur vertical (E/O)
             if (ray_dir_x > 0) {
-                // Est
-                wall_color = 0xFF0000;
+                draw_vertical_line(cub, x, draw_s, draw_e, 'o');
             } else {
-                // Ouest
-                wall_color = 0x00FF00;
+                draw_vertical_line(cub, x, draw_s, draw_e, 'w');
             }
         } else {
-            // Mur horizontal (N/S)
             if (ray_dir_y > 0) {
-                // Sud
-                wall_color = 0x0000FF;
+                draw_vertical_line(cub, x, draw_s, draw_e, 's');
             } else {
-                // Nord
-                wall_color = 0xFFFF00;
+                draw_vertical_line(cub, x, draw_s, draw_e, 'n');
             }
         }
-
-
-
-        draw_vertical_line(cub, x, draw_s, draw_e, wall_color);
         x++;
     }
 }

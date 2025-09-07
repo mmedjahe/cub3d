@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:59:34 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/05 22:49:23 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 20:10:19 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int is_line_empty(char *str)
     {
         if(str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
             return(0);
-        i++;  
+        i++;
     }
     return(1);
 }
@@ -103,7 +103,7 @@ void ground_colors_stockers(char *str, t_cub *cub)
             free_tab(tab);
             ft_error("ground color out of range", cub);
         }
-            
+
         cub->ground_colors[i] = value;
         i++;
     }
@@ -120,7 +120,7 @@ void ceiling_colors_stockers(char *str, t_cub *cub)
         free(str);
         ft_error("ceiling colors appears two times", cub);
     }
-        
+
     i = 0;
     while(ft_isdigit(str[i]) != 1)
         i++;
@@ -140,7 +140,7 @@ void ceiling_colors_stockers(char *str, t_cub *cub)
             free_tab(tab);
             ft_error("ceiling color out of range", cub);
         }
-            
+
         cub->ceiling_colors[i] = value;
         i++;
     }
