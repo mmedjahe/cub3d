@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:48:48 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/03/02 23:56:38 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:18:32 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strcat(str, (char *)s2);
 	return (str);
 }
-
-

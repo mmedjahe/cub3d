@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:25:31 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:17:56 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:26:19 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	check_textures_and_colors(t_cub *cub)
 			return (0);
 		i++;
 	}
-	if (!cub->NO || !cub->SO || !cub->EA || !cub->WE)
+	if (!cub->no || !cub->so || !cub->ea || !cub->we)
 		return (0);
 	return (1);
 }

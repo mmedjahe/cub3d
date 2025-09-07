@@ -5,8 +5,7 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 
 
-SRCS = main.c parsing.c parsing_2.c parsing_3.c map.c mlx.c raycasting_1.c raycasting_2.c raycasting_3.c hooks.c utils.c
-SRCS = main.c parsing.c parsing_2.c parsing_4.c parsing_3.c map.c map_2.c mlx.c raycasting_1.c raycasting_2.c hooks.c utils.c
+SRCS = main.c parsing.c parsing_2.c parsing_3.c parsing_4.c map_2.c map.c mlx.c raycasting_1.c raycasting_2.c raycasting_3.c hooks.c utils.c
 
 OBJS = $(SRCS:.c=.o)
 

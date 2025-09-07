@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 00:34:23 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:15:41 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:40:05 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,17 @@ void	init_struct(t_cub *cub)
 		cub->ground_colors[i] = -1;
 		i++;
 	}
-	cub->NO = NULL;
-	cub->SO = NULL;
-	cub->WE = NULL;
-	cub->EA = NULL;
+	cub->no = NULL;
+	cub->so = NULL;
+	cub->we = NULL;
+	cub->ea = NULL;
 	cub->map = NULL;
 	cub->height = 0;
 	cub->width = 0;
 	cub->player = malloc(sizeof(t_player) * 1);
 	if (!cub->player)
 		ft_error("Malloc failed for player", cub);
-	cub->player->player_x = 0;
-	cub->player->player_y = 0;
-	cub->mlx.no_tex = (t_img){0};
-	cub->mlx.so_tex = (t_img){0};
-	cub->mlx.we_tex = (t_img){0};
-	cub->mlx.ea_tex = (t_img){0};
-	cub->mlx.img = NULL;
-	cub->mlx.win = NULL;
-	cub->mlx.mlx = NULL;
+	inittt(cub);
 }
 
 void	init_mlx(t_cub *cub)
@@ -71,14 +63,14 @@ int	ft_error(char *str, t_cub *cub)
 {
 	printf("%s\n", str);
 	cleanup_mlx(cub);
-	if (cub->NO)
-		free(cub->NO);
-	if (cub->SO)
-		free(cub->SO);
-	if (cub->WE)
-		free(cub->WE);
-	if (cub->EA)
-		free(cub->EA);
+	if (cub->no)
+		free(cub->no);
+	if (cub->so)
+		free(cub->so);
+	if (cub->we)
+		free(cub->we);
+	if (cub->ea)
+		free(cub->ea);
 	if (cub->map)
 		free_tab(cub->map);
 	if (cub->player)

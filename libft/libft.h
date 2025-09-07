@@ -6,21 +6,21 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:03:03 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/07/15 00:17:42 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:18:40 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "./gnl/get_next_line.h"
+# include "./printf/ft_printf.h"
 # include <stddef.h>
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-#include "./gnl/get_next_line.h"
-#include "./printf/ft_printf.h"
 
 int					ft_atoi(const char *nptr);
 void				ft_bzero(void *s, size_t n);

@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 20:16:04 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:16:53 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:40:59 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	load_one(t_cub *cub, t_img *dst, const char *path)
 
 void	load_textures(t_cub *cub)
 {
-	load_one(cub, &cub->mlx.no_tex, cub->NO);
-	load_one(cub, &cub->mlx.so_tex, cub->SO);
-	load_one(cub, &cub->mlx.we_tex, cub->WE);
-	load_one(cub, &cub->mlx.ea_tex, cub->EA);
+	load_one(cub, &cub->mlx.no_tex, cub->no);
+	load_one(cub, &cub->mlx.so_tex, cub->so);
+	load_one(cub, &cub->mlx.we_tex, cub->we);
+	load_one(cub, &cub->mlx.ea_tex, cub->ea);
 }
 
 int	close_window(t_cub *cub)
@@ -59,4 +59,17 @@ void	cleanup_mlx(t_cub *cub)
 		mlx_destroy_display(cub->mlx.mlx);
 		free(cub->mlx.mlx);
 	}
+}
+
+void	inittt(t_cub *cub)
+{
+	cub->player->player_x = 0;
+	cub->player->player_y = 0;
+	cub->mlx.no_tex = (t_img){0};
+	cub->mlx.so_tex = (t_img){0};
+	cub->mlx.we_tex = (t_img){0};
+	cub->mlx.ea_tex = (t_img){0};
+	cub->mlx.img = NULL;
+	cub->mlx.win = NULL;
+	cub->mlx.mlx = NULL;
 }

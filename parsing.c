@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:59:34 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 21:50:20 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:26:02 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	sorter(char *str, t_cub *cub)
 	else if (!ft_strncmp(str + i, "C ", 2))
 		return (2);
 	else if (!ft_strncmp(str + i, "NO ", 3))
-		text_paths_stocker(&cub->NO, str + i, cub);
+		text_paths_stocker(&cub->no, str + i, cub);
 	else if (!ft_strncmp(str + i, "SO ", 3))
-		text_paths_stocker(&cub->SO, str + i, cub);
+		text_paths_stocker(&cub->so, str + i, cub);
 	else if (!ft_strncmp(str + i, "WE ", 3))
-		text_paths_stocker(&cub->WE, str + i, cub);
+		text_paths_stocker(&cub->we, str + i, cub);
 	else if (!ft_strncmp(str + i, "EA ", 3))
-		text_paths_stocker(&cub->EA, str + i, cub);
+		text_paths_stocker(&cub->ea, str + i, cub);
 	else if (is_line_empty(str))
 		return (3);
 	else
