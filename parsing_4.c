@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 21:36:14 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 22:19:27 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:15:09 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ char	**parse_color_line(char *str, t_cub *cub)
 	int		i;
 	char	**tab;
 
-	i = 0;
-	while (ft_isdigit(str[i]) != 1)
+	i = 1;
+	while (str[i] == ' ')
 		i++;
+	if (!ft_isdigit(str[i]))
+		ft_error("color line error", cub);
 	if (comma_counter(str + i) != 2)
 		ft_error("color line format error", cub);
 	tab = ft_split(str + i, ',');
