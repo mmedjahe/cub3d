@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:25:31 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 22:26:19 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:14:54 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	text_paths_stocker(char **dest, char *src, t_cub *cub)
 		ft_error("same texture appears two times", cub);
 	}
 	i = 3;
+	while (src[i] == ' ')
+		i++;
 	s = ft_strtrim(src, "\n");
 	if (!s)
 		return ;
