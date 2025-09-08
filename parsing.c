@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:59:34 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 22:26:02 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:00:27 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,16 @@ void	ground_colors_stockers(char *str, t_cub *cub)
 	char	**tab;
 
 	if (cub->ground_colors[0] != -1)
+	{
+		free(str);
 		ft_error("ground colors appears two times", cub);
+	}
 	tab = parse_color_line(str, cub);
-	fill_colors(cub->ground_colors, tab, cub);
+	if (fill_colors(cub->ground_colors, tab) == 0)
+	{
+		free(str);
+		ft_error("color error", cub);
+	}
 	free_tab(tab);
 }
 
@@ -92,8 +99,15 @@ void	ceiling_colors_stockers(char *str, t_cub *cub)
 	char	**tab;
 
 	if (cub->ceiling_colors[0] != -1)
+	{
+		free(str);
 		ft_error("ceiling colors appears two times", cub);
+	}
 	tab = parse_color_line(str, cub);
-	fill_colors(cub->ceiling_colors, tab, cub);
+	if (fill_colors(cub->ceiling_colors, tab) == 0)
+	{
+		free(str);
+		ft_error("color error", cub);
+	}
 	free_tab(tab);
 }

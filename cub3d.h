@@ -6,7 +6,7 @@
 /*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/07 22:39:20 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:04:53 by mmedjahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,11 @@ double				cast_ray(t_cub *cub, double ray_angle, int *out_side);
 char				letter_orientation(int side, double ray_dir_x,
 						double ray_dir_y);
 char				**parse_color_line(char *str, t_cub *cub);
-void				fill_colors(int *dest, char **tab, t_cub *cub);
+int					fill_colors(int *dest, char **tab);
 void				check_cell_closed(char **map, int y, int x, t_cub *cub);
 char				*copy_and_pad_line(char *src, size_t width, t_cub *cub);
 double				get_direction(char c);
 void				inittt(t_cub *cub);
+int					is_valid_number(char *s);
+void				validate_color_components(char **tab, t_cub *cub, char *str);
 #endif
