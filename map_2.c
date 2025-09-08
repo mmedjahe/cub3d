@@ -47,9 +47,9 @@ char	*copy_and_pad_line(char *src, size_t width, t_cub *cub)
 double	get_direction(char c)
 {
 	if (c == 'N')
-		return (M_PI_2);
+		return (M_PI / 2);
 	else if (c == 'S')
-		return (3 * M_PI_2);
+		return (3 * M_PI / 2);
 	else if (c == 'E')
 		return (0);
 	else if (c == 'W')

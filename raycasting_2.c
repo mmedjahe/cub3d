@@ -10,13 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3d.h"
-
-int	get_color(int *value_color)
-{
-	return (value_color[0] * 65536 + value_color[1] * 256 + value_color[2]);
-}
 
 int	is_wall_or_void(t_cub *cub, int mx, int my)
 {
@@ -31,16 +25,6 @@ int	is_wall_or_void(t_cub *cub, int mx, int my)
 	c = cub->map[my][mx];
 	return (c == '1' || c == ' ' || c == '\t');
 }
-t_img	*pick_texture(t_cub *cub, char orientation)
-{
-	if (orientation == 'n')
-		return (&cub->mlx.no_tex);
-	if (orientation == 's')
-		return (&cub->mlx.so_tex);
-	if (orientation == 'e')
-		return (&cub->mlx.ea_tex);
-	return (&cub->mlx.we_tex);
-}
 
 static char	get_orientation(t_cub *cub, int x)
 {
@@ -48,53 +32,46 @@ static char	get_orientation(t_cub *cub, int x)
 	double	cam;
 	double	ray_angle;
 	int		side;
-	double	ray_dir_x;
-	double	ray_dir_y;
 
 	screen_w = cub->width * TILE_SIZE;
 	cam = ((double)x / (double)screen_w) - 0.5;
-	ray_angle = cub->player->player_direction + cam * FOV_RAD;
+	ray_angle = cub->player->player_direction + cam * FOV_DEG * M_PI / 180.0;
 	side = 0;
-	cast_ray(cub, ray_angle, &side);
-	ray_dir_x = cos(ray_angle);
-	ray_dir_y = sin(ray_angle);
-	return (letter_orientation(side, ray_dir_x, ray_dir_y));
+	cast_ray(cub, ray_angle, &side, 0);
+	return (letter_orientation(side, cos(ray_angle), sin(ray_angle)));
+}
+
+static int	screen_h(const t_cub *c)
+{
+	return (c->height * TILE_SIZE);
 }
 
 void	draw_vertical_line(t_cub *cub, int x, int line_h, int texX)
 {
-	int				screen_h;
-	t_img			*tex;
-	int				start;
-	int				end;
-	double			step;
-	double			texPos;
-	int				y;
-	int				texY;
-	unsigned int	color;
+	int		sh;
+	t_vline	v;
+	int		ty;
 
-	screen_h = cub->height * TILE_SIZE;
-	tex = pick_texture(cub, get_orientation(cub, x));
-	start = -line_h / 2 + (cub->height * TILE_SIZE) / 2;
-	end = line_h / 2 + (cub->height * TILE_SIZE) / 2;
-	if (start < 0)
-		start = 0;
-	if (end >= screen_h)
-		end = screen_h - 1;
-	step = (double)tex->h / (double)line_h;
-	texPos = (start - (-line_h / 2.0 + screen_h / 2.0)) * step;
-	y = start;
-	while (y <= end)
+	sh = screen_h(cub);
+	v.tex = pick_texture(cub, get_orientation(cub, x));
+	v.start = -line_h / 2 + sh / 2;
+	v.end = line_h / 2 + sh / 2;
+	if (v.start < 0)
+		v.start = 0;
+	if (v.end >= sh)
+		v.end = sh - 1;
+	v.step = (double)v.tex->h / (double)line_h;
+	v.pos = (v.start - (-line_h / 2.0 + sh / 2.0)) * v.step;
+	v.y = v.start;
+	while (++v.y <= v.end)
 	{
-		texY = (int)texPos;
-		if (texY < 0)
-			texY = 0;
-		if (texY >= tex->h)
-			texY = tex->h - 1;
-		texPos += step;
-		color = tex_px(tex, texX, texY);
-		put_pixel(cub, x, y, (int)color);
-		y++;
+		ty = (int)v.pos;
+		if (ty < 0)
+			ty = 0;
+		else if (ty >= v.tex->h)
+			ty = v.tex->h - 1;
+		put_pixel(cub, x, v.y, (int)tex_px(v.tex, texX, ty));
+		v.pos += v.step;
 	}
 }
 

@@ -22,16 +22,12 @@
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
-#  define M_PI_2 (M_PI / 2)
 # endif
 
 # ifndef FOV_DEG
 #  define FOV_DEG 60.0
 # endif
 
-# ifndef FOV_RAD
-#  define FOV_RAD (FOV_DEG * M_PI / 180.0)
-# endif
 # define TILE_SIZE 32
 
 typedef struct s_img
@@ -99,6 +95,46 @@ typedef struct s_node
 	struct s_node	*next;
 }					t_node;
 
+typedef struct s_ray
+{
+	double			cam;
+	double			ang;
+	double			dist;
+	double			perp;
+	int				side;
+	int				line_h;
+	int				texx;
+	t_img			*tex;
+}					t_ray;
+
+typedef struct s_vline
+{
+	int				start;
+	int				end;
+	int				y;
+	double			step;
+	double			pos;
+	t_img			*tex;
+}					t_vline;
+
+typedef struct s_dda
+{
+	double			px;
+	double			py;
+	double			dx;
+	double			dy;
+	int				mx;
+	int				my;
+	double			ddx;
+	double			ddy;
+	int				sx;
+	int				sy;
+	double			sdx;
+	double			sdy;
+	int				side;
+	int				safety;
+}					t_dda;
+
 int					parser(t_cub *cub, char *file);
 int					sorter(char *str, t_cub *cub);
 int					is_line_empty(char *str);
@@ -135,7 +171,8 @@ void				load_one(t_cub *cub, t_img *dst, const char *path);
 void				load_textures(t_cub *cub);
 t_img				*pick_texture(t_cub *cub, char orientation);
 unsigned int		tex_px(const t_img *im, int x, int y);
-double				cast_ray(t_cub *cub, double ray_angle, int *out_side);
+double				cast_ray(t_cub *cub, double ray_angle, int *out_side,
+						int hit);
 char				letter_orientation(int side, double ray_dir_x,
 						double ray_dir_y);
 char				**parse_color_line(char *str, t_cub *cub);

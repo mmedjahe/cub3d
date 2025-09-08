@@ -12,74 +12,61 @@
 
 #include "cub3d.h"
 
-char letter_orientation(int side, double ray_dir_x, double ray_dir_y)
+static double	get_wallx(t_cub *cub, int side, double perp_dist,
+		double ray_angle)
 {
-    char orientation;
+	double	wallx;
 
-    if (side == 0)
-    {
-        if (ray_dir_x > 0)
-            orientation = 'e';
-        else
-            orientation = 'w';
-    }
-    else
-    {
-        if (ray_dir_y > 0)
-            orientation = 's';
-        else
-            orientation = 'n';
-    }
-    return (orientation);
+	if (side == 0)
+		wallx = cub->player->player_y + perp_dist * sin(ray_angle);
+	else
+		wallx = cub->player->player_x + perp_dist * cos(ray_angle);
+	wallx -= floor(wallx);
+	return (wallx);
 }
 
-void	draw_walls(t_cub *cub)
+static double	clamp_perp(double p)
 {
-	int		screen_w;
+	if (p > 1e-6)
+		return (p);
+	else
+		return (1e-6);
+}
+
+static int	texture_x(t_cub *cub, t_ray *r, t_img *tex)
+{
+	double	wx;
+	int		tx;
+
+	wx = get_wallx(cub, r->side, r->perp, r->ang);
+	tx = (int)(wx * (double)tex->w);
+	if ((r->side == 0 && cos(r->ang) > 0) || (r->side == 1 && sin(r->ang) < 0))
+		tx = tex->w - tx - 1;
+	return (tx);
+}
+
+static void	draw_walls(t_cub *cub, int screen_w)
+{
 	int		x;
-	double	cam;
-	double	ray_angle;
-		int side;
-	double	dist;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	double	perp_dist;
-		int line_h;
-		double safe_dist;
-	t_img	*tex;
-		double wallX;
-	int		texX;
+	double	invw;
+	double	hpx;
+	t_ray	r;
 
-	x = 0;
-	screen_w = cub->width * TILE_SIZE;
-	while (x < screen_w)
+	x = -1;
+	invw = 1.0 / (double)screen_w;
+	hpx = (double)cub->height * TILE_SIZE;
+	while (++x < screen_w)
 	{
-		cam = ((double)x / (double)screen_w) - 0.5;
-		ray_angle = cub->player->player_direction + cam * FOV_RAD;
-		side = 0;
-		dist = cast_ray(cub, ray_angle, &side);
-		ray_dir_x = cos(ray_angle);
-		ray_dir_y = sin(ray_angle);
-		perp_dist = dist * cos(ray_angle - cub->player->player_direction);
-		if (perp_dist > 1e-6)
-			safe_dist = perp_dist;
-		else
-			safe_dist = 1e-6;
-		line_h = (int)((cub->height * TILE_SIZE) / safe_dist);
-
-		tex = pick_texture(cub, letter_orientation(side, ray_dir_x, ray_dir_y));
-		if (side == 0)
-			wallX = cub->player->player_y + perp_dist * ray_dir_y;
-		else
-			wallX = cub->player->player_x + perp_dist * ray_dir_x;
-		wallX -= floor(wallX);
-		texX = (int)(wallX * (double)tex->w);
-		if (side == 0 && ray_dir_x > 0)
-			texX = tex->w - texX - 1;
-		if (side == 1 && ray_dir_y < 0)
-			texX = tex->w - texX - 1;
-		draw_vertical_line(cub, x, line_h, texX);
-		x++;
+		r.cam = (double)x * invw - 0.5;
+		r.ang = cub->player->player_direction + r.cam * FOV_DEG * M_PI / 180.0;
+		r.side = 0;
+		r.dist = cast_ray(cub, r.ang, &r.side, 0);
+		r.perp = r.dist * cos(r.ang - cub->player->player_direction);
+		r.line_h = (int)(hpx / clamp_perp(r.perp));
+		r.tex = pick_texture(cub, letter_orientation(r.side, cos(r.ang),
+					sin(r.ang)));
+		r.texx = texture_x(cub, &r, r.tex);
+		draw_vertical_line(cub, x, r.line_h, r.texx);
 	}
 }
 
@@ -104,5 +91,5 @@ void	draw_frame(t_cub *cub)
 		}
 		y++;
 	}
-	draw_walls(cub);
+	draw_walls(cub, cub->width * TILE_SIZE);
 }
