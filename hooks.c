@@ -3,13 +3,13 @@
 
 static void	normalize_angle(double *a)
 {
-	double	TWO_PI;
+	double	two_pi;
 
-	TWO_PI = 2.0 * M_PI;
+	two_pi = 2.0 * M_PI;
 	while (*a < 0)
-		*a += TWO_PI;
-	while (*a >= TWO_PI)
-		*a -= TWO_PI;
+		*a += two_pi;
+	while (*a >= two_pi)
+		*a -= two_pi;
 }
 
 static void	if_cub_place_pos(t_cub *cub, double ca, double cb)

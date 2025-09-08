@@ -35,7 +35,7 @@ static char	get_orientation(t_cub *cub, int x)
 
 	screen_w = cub->width * TILE_SIZE;
 	cam = ((double)x / (double)screen_w) - 0.5;
-	ray_angle = cub->player->player_direction + cam * FOV_RAD;
+	ray_angle = cub->player->player_direction + cam * FOV_DEG * M_PI / 180.0;
 	side = 0;
 	cast_ray(cub, ray_angle, &side, 0);
 	return (letter_orientation(side, cos(ray_angle), sin(ray_angle)));
