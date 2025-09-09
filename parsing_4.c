@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 21:36:14 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/08 21:05:24 by mmedjahe         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:02:44 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,16 @@ char	**parse_color_line(char *str, t_cub *cub)
 	i = 1;
 	while (str[i] == ' ')
 		i++;
-
 	if (!ft_isdigit(str[i]))
 	{
 		free(str);
 		ft_error("color line error", cub);
 	}
-
 	if (comma_counter(str + i) != 2)
 	{
 		free(str);
 		ft_error("color line format error", cub);
 	}
-
 	tab = ft_split(str + i, ',');
 	if (!tab[0] || !tab[1] || !tab[2] || tab[3])
 	{
@@ -60,7 +57,6 @@ char	**parse_color_line(char *str, t_cub *cub)
 		free(str);
 		ft_error("wrong number of color components", cub);
 	}
-
 	validate_color_components(tab, cub, str);
 	return (tab);
 }

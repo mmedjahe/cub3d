@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmedjahe <mmedjahe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apesic <apesic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 23:32:24 by mmedjahe          #+#    #+#             */
-/*   Updated: 2025/09/08 21:04:53 by mmedjahe         ###   ########.fr       */
+/*   Created: 2025/09/09 17:00:50 by apesic            #+#    #+#             */
+/*   Updated: 2025/09/09 17:00:51 by apesic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,6 @@ char				*copy_and_pad_line(char *src, size_t width, t_cub *cub);
 double				get_direction(char c);
 void				inittt(t_cub *cub);
 int					is_valid_number(char *s);
-void				validate_color_components(char **tab, t_cub *cub, char *str);
+void				validate_color_components(char **tab, t_cub *cub,
+						char *str);
 #endif
