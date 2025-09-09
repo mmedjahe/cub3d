@@ -58,6 +58,7 @@ static void	draw_walls(t_cub *cub, int screen_w)
 	while (++x < screen_w)
 	{
 		r.cam = (double)x * invw - 0.5;
+		printf("player_direction: %f\n", cub->player->player_direction);
 		r.ang = cub->player->player_direction + r.cam * FOV_DEG * M_PI / 180.0;
 		r.side = 0;
 		r.dist = cast_ray(cub, r.ang, &r.side, 0);

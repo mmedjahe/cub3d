@@ -118,7 +118,7 @@ char	**rectang_map(t_cub *cub, char **original_map)
 	{
 		new_map[i] = copy_and_pad_line(original_map[i], width, cub);
 		i++;
-	}	
+	}
 	new_map[y] = NULL;
 	return (new_map);
 }

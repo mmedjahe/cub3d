@@ -26,9 +26,9 @@ char	letter_orientation(int side, double ray_dir_x, double ray_dir_y)
 	else
 	{
 		if (ray_dir_y > 0)
-			orientation = 's';
-		else
 			orientation = 'n';
+		else
+			orientation = 's';
 	}
 	return (orientation);
 }
